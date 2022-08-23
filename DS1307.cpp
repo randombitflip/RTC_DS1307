@@ -69,11 +69,14 @@ void DS1307::stopClock(void) {       // set the ClockHalt bit high to stop the r
 }
 /****************************************************************/
 /*Function: Read time and date from RTC */
-void DS1307::getTime() {
+uint8_t DS1307::getTime() {
     // Reset the register pointer
     Wire.beginTransmission(DS1307_I2C_ADDRESS);
     Wire.write((uint8_t)0x00);
-    Wire.endTransmission();
+    uint8_t val_ret = Wire.endTransmission();
+    if (val_ret){
+        return val_ret;
+    }
     Wire.requestFrom(DS1307_I2C_ADDRESS, 7);
     // A few of these need masks because certain bits are control bits
     second     = bcdToDec(Wire.read() & 0x7f);
@@ -83,6 +86,7 @@ void DS1307::getTime() {
     dayOfMonth = bcdToDec(Wire.read());
     month      = bcdToDec(Wire.read());
     year       = bcdToDec(Wire.read());
+    return val_ret;
 }
 /*******************************************************************/
 /*Frunction: Write the time that includes the date to the RTC chip */
