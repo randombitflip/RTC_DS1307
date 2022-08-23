@@ -53,7 +53,7 @@ class DS1307 {
     void startClock(void);
     void stopClock(void);
     void setTime(void);
-    void getTime(void);
+    uint8_t getTime(void);
     void fillByHMS(uint8_t _hour, uint8_t _minute, uint8_t _second);
     void fillByYMD(uint16_t _year, uint8_t _month, uint8_t _day);
     void fillDayOfWeek(uint8_t _dow);
